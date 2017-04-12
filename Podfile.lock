@@ -1,0 +1,28 @@
+PODS:
+  - CatalogByConvention (2.1.0)
+  - IndefiniteObservable (3.1.0):
+    - IndefiniteObservable/lib (= 3.1.0)
+  - IndefiniteObservable/lib (3.1.0)
+  - MaterialMotion (1.2.0):
+    - IndefiniteObservable (~> 3.0)
+  - MaterialMotionComponents (1.0.0):
+    - IndefiniteObservable (~> 3.0)
+    - MaterialMotion (~> 1.0)
+
+DEPENDENCIES:
+  - CatalogByConvention
+  - MaterialMotionComponents (from `./`)
+
+EXTERNAL SOURCES:
+  MaterialMotionComponents:
+    :path: "./"
+
+SPEC CHECKSUMS:
+  CatalogByConvention: ef0913973b86b4234bcadf22aa84037c4a47cbbd
+  IndefiniteObservable: 2789d61f487d8d37fa2b9c3153cc44d4447ff744
+  MaterialMotion: c8f094cb0c095a34718022b54a4fae0e8ee722d0
+  MaterialMotionComponents: 1a3b4780454560dd4884627311f286cd78675b45
+
+PODFILE CHECKSUM: f36376b2381334c2f8502274dea94dada3efac84
+
+COCOAPODS: 1.2.0
