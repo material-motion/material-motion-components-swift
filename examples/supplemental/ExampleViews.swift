@@ -14,8 +14,17 @@
  limitations under the License.
  */
 
-// MARK: Catalog by convention
+import UIKit
 
-extension TransitionsExampleViewController {
-  class func catalogBreadcrumbs() -> [String] { return ["Transitions"] }
+func createExampleView() -> UIView {
+  let view = UIView(frame: .init(x: 0, y: 0, width: 128, height: 128))
+  view.backgroundColor = .primaryColor
+  view.layer.cornerRadius = view.bounds.width / 2
+  return view
+}
+
+func createExampleSquareView() -> UIView {
+  let view = UIView(frame: .init(x: 0, y: 0, width: 128, height: 128))
+  view.backgroundColor = .primaryColor
+  return view
 }

@@ -1,5 +1,5 @@
 /*
- Copyright 2016-present The Material Motion Authors. All Rights Reserved.
+ Copyright 2017-present The Material Motion Authors. All Rights Reserved.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,8 +14,10 @@
  limitations under the License.
  */
 
-// MARK: Catalog by convention
+import XCTest
 
-extension TransitionsExampleViewController {
-  class func catalogBreadcrumbs() -> [String] { return ["Transitions"] }
+class NoopTests: XCTestCase {
+
+  func testNoop() {
+  }
 }

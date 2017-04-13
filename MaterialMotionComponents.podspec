@@ -9,8 +9,9 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "9.0"
   s.requires_arc = true
 
-  s.source_files = "src/**/*.{swift}"
-
-  s.dependency "IndefiniteObservable", "~> 3.0"
   s.dependency "MaterialMotion", "~> 1.0"
+
+  s.subspec "SlideTransition" do |ss|
+    ss.source_files = "src/transitions/slide/*.swift"
+  end
 end

@@ -14,8 +14,12 @@
  limitations under the License.
  */
 
-// MARK: Catalog by convention
+import UIKit
 
-extension TransitionsExampleViewController {
-  class func catalogBreadcrumbs() -> [String] { return ["Transitions"] }
+func center(_ view: UIView, within containerView: UIView) -> UIView {
+  let x = (containerView.bounds.width - view.bounds.width) / 2
+  let y = (containerView.bounds.height - view.bounds.height) / 2
+  view.frame = .init(origin: .init(x: x, y: y), size: view.bounds.size)
+  view.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin, .flexibleBottomMargin, .flexibleLeftMargin]
+  return view
 }
