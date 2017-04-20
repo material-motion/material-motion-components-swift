@@ -18,7 +18,7 @@ import UIKit
 import MaterialMotion
 import MaterialMotionComponents
 
-let transitions = [SlideTransition.self]
+let transitions: [Transition.Type] = [ModalTransition.self]
 
 class TransitionsExampleViewController: ExampleViewController {
 
@@ -94,6 +94,10 @@ private class ModalViewController: UIViewController {
     let pan = UIPanGestureRecognizer()
     view.addGestureRecognizer(pan)
     transitionController.dismisser.dismissWhenGestureRecognizerBegins(pan)
+  }
+
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
   }
 
   func didTap() {
