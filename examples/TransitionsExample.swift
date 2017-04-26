@@ -93,7 +93,7 @@ private class ModalViewController: UIViewController {
 
     let pan = UIPanGestureRecognizer()
     view.addGestureRecognizer(pan)
-    transitionController.dismisser.dismissWhenGestureRecognizerBegins(pan)
+    transitionController.dismissWhenGestureRecognizerBegins(pan)
   }
 
   override var preferredStatusBarStyle: UIStatusBarStyle {
