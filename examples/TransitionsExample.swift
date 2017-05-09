@@ -18,37 +18,56 @@ import UIKit
 import MaterialMotion
 import MaterialMotionComponents
 
-let transitions: [Transition.Type] = [ModalTransition.self]
-
 class TransitionsExampleViewController: ExampleViewController {
 
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.play, target: self, action: #selector(didTap))
+  struct TransitionInfo {
+    let name: String
+    let transition: Transition
   }
+  var transitions: [TransitionInfo] = []
 
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  var picker: UIPickerView!
+  var tableView: UITableView!
+  var fab: UIView!
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    picker = UIPickerView()
-    let size = picker.sizeThatFits(view.bounds.size)
-    picker.bounds = .init(origin: .zero, size: size)
-    picker.layer.position = .init(x: view.bounds.midX, y: view.bounds.midY)
-    picker.dataSource = self
-    picker.delegate = self
-    view.addSubview(picker)
+    transitions.append(.init(name: "Vertical sheet", transition: VerticalSheetTransition()))
+
+    let modalDialog = VerticalSheetTransition()
+    modalDialog.calculateFrameOfPresentedViewInContainerView = { containerView, _, _ in
+      let size = CGSize(width: 200, height: 200)
+      return CGRect(x: (containerView.bounds.width - size.width) / 2,
+                    y: (containerView.bounds.height - size.height) / 2,
+                    width: size.width,
+                    height: size.height)
+    }
+    transitions.append(.init(name: "Modal dialog", transition: modalDialog))
+
+    tableView = UITableView(frame: view.bounds, style: .plain)
+    tableView.dataSource = self
+    tableView.delegate = self
+    tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    view.addSubview(tableView)
   }
 
-  func didTap() {
-    let vc = ModalViewController()
-    vc.transitionController.transitionType = transitions[picker.selectedRow(inComponent: 0)]
-    present(vc, animated: true)
+  var cachedSelection: IndexPath?
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    cachedSelection = tableView.indexPathForSelectedRow
+    if let selectedIndexPath = cachedSelection {
+      tableView.deselectRow(at: selectedIndexPath, animated: animated)
+    }
+  }
+
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+
+    if let selectedIndexPath = cachedSelection {
+      tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
+      cachedSelection = nil
+    }
   }
 
   override func exampleInformation() -> ExampleInfo {
@@ -57,32 +76,29 @@ class TransitionsExampleViewController: ExampleViewController {
   }
 }
 
-extension TransitionsExampleViewController: UIPickerViewDataSource {
-  func numberOfComponents(in pickerView: UIPickerView) -> Int {
+extension TransitionsExampleViewController: UITableViewDataSource {
+  func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
-
-  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return transitions.count
+  }
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+    cell.textLabel?.text = transitions[indexPath.row].name
+    return cell
   }
 }
 
-extension TransitionsExampleViewController: UIPickerViewDelegate {
-  func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-    let string = String(describing: transitions[row])
-    return NSAttributedString(string: string, attributes: [NSForegroundColorAttributeName: UIColor.white])
+extension TransitionsExampleViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let modal = ModalViewController()
+    modal.transitionController.transition = transitions[indexPath.row].transition
+    showDetailViewController(modal, sender: self)
   }
 }
 
 private class ModalViewController: UIViewController {
-
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-  }
-
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -90,6 +106,13 @@ private class ModalViewController: UIViewController {
     view.backgroundColor = .primaryColor
 
     view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap)))
+
+    let label = UILabel(frame: view.bounds)
+    label.numberOfLines = 0
+    label.lineBreakMode = .byWordWrapping
+    label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In aliquam dolor eget orci condimentum, eu blandit metus dictum. Suspendisse vitae metus pellentesque, sagittis massa vel, sodales velit. Aliquam placerat nibh et posuere interdum. Etiam fermentum purus vel turpis lobortis auctor. Curabitur auctor maximus purus, ac iaculis mi. In ac hendrerit sapien, eget porttitor risus. Integer placerat cursus viverra. Proin mollis nulla vitae nisi posuere, eu rutrum mauris condimentum. Nullam in faucibus nulla, non tincidunt lectus. Maecenas mollis massa purus, in viverra elit molestie eu. Nunc volutpat magna eget mi vestibulum pharetra. Suspendisse nulla ligula, laoreet non ante quis, vehicula facilisis libero. Morbi faucibus, sapien a convallis sodales, leo quam scelerisque leo, ut tincidunt diam velit laoreet nulla. Proin at quam vel nibh varius ultrices porta id diam. Pellentesque pretium consequat neque volutpat tristique. Sed placerat a purus ut molestie. Nullam laoreet venenatis urna non pulvinar. Proin a vestibulum nulla, eu placerat est. Morbi molestie aliquam justo, ut aliquet neque tristique consectetur. In hac habitasse platea dictumst. Fusce vehicula justo in euismod elementum. Ut vel malesuada est. Aliquam mattis, ex vel viverra eleifend, mauris nibh faucibus nibh, in fringilla sem purus vitae elit. Donec sed dapibus orci, ut vulputate sapien. Integer eu magna efficitur est pellentesque tempor. Sed ac imperdiet ex. Maecenas congue quis lacus vel dictum. Phasellus dictum mi at sollicitudin euismod. Mauris laoreet, eros vitae euismod commodo, libero ligula pretium massa, in scelerisque eros dui eu metus. Fusce elementum mauris velit, eu tempor nulla congue ut. In at tellus id quam feugiat semper eget ut felis. Nulla quis varius quam. Nullam tincidunt laoreet risus, ut aliquet nisl gravida id. Nulla iaculis mauris velit, vitae feugiat nunc scelerisque ac. Vivamus eget ligula porta, pulvinar ex vitae, sollicitudin erat. Maecenas semper ornare suscipit. Ut et neque condimentum lectus pulvinar maximus in sit amet odio. Aliquam congue purus erat, eu rutrum risus placerat a."
+    label.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    view.addSubview(label)
 
     let pan = UIPanGestureRecognizer()
     view.addGestureRecognizer(pan)

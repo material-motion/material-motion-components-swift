@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
   s.dependency "MaterialMotion", "~> 1.0"
 
-  s.subspec "ModalTransition" do |ss|
-    ss.source_files = "src/transitions/modal/*.swift"
+  s.subspec "VerticalSheetTransition" do |ss|
+    ss.source_files = "src/transitions/verticalsheet/*.swift"
   end
 end
