@@ -1,10 +1,10 @@
 PODS:
   - CatalogByConvention (2.1.0)
-  - IndefiniteObservable (3.1.0):
-    - IndefiniteObservable/lib (= 3.1.0)
-  - IndefiniteObservable/lib (3.1.0)
+  - IndefiniteObservable (4.0.0):
+    - IndefiniteObservable/lib (= 4.0.0)
+  - IndefiniteObservable/lib (4.0.0)
   - MaterialMotion (1.3.0):
-    - IndefiniteObservable (~> 3.0)
+    - IndefiniteObservable (~> 4.0)
   - MaterialMotionComponents (1.0.0):
     - MaterialMotion (~> 1.0)
     - MaterialMotionComponents/ModalTransition (= 1.0.0)
@@ -24,8 +24,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   CatalogByConvention: ef0913973b86b4234bcadf22aa84037c4a47cbbd
-  IndefiniteObservable: 2789d61f487d8d37fa2b9c3153cc44d4447ff744
-  MaterialMotion: b5040104b109cf9680a2c4a77296c429dab2c376
+  IndefiniteObservable: 1ee6af37efa8763a222cc6d414cd125e26ed9b6a
+  MaterialMotion: 42e9f95334ad208e9d44536d188d75488d847c81
   MaterialMotionComponents: d025ac82cb84e9c598a7664e51720ef7d7a505c1
 
 PODFILE CHECKSUM: 9dda8ccf7f28bddde7a86b78625c7e3fb1da6808
