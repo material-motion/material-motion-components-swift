@@ -56,6 +56,7 @@ class TransitionsExampleViewController: ExampleViewController {
     vc.transitionController.transitionType = transitions[picker.selectedRow(inComponent: 0)]
     if sizeSwitch.isOn {
       vc.preferredContentSize = .init(width: 100, height: 100)
+      vc.view.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin, .flexibleRightMargin, .flexibleBottomMargin]
       vc.modalPresentationStyle = .overCurrentContext
     }
     present(vc, animated: true)
