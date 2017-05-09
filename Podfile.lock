@@ -7,7 +7,11 @@ PODS:
     - IndefiniteObservable (~> 4.0)
   - MaterialMotionComponents (1.0.0):
     - MaterialMotion (~> 1.0)
+    - MaterialMotionComponents/FABFullScreenTransition (= 1.0.0)
     - MaterialMotionComponents/VerticalSheetTransition (= 1.0.0)
+  - MaterialMotionComponents/FABFullScreenTransition (1.0.0):
+    - MaterialMotion (~> 1.0)
+    - MaterialMotionComponents/VerticalSheetTransition
   - MaterialMotionComponents/VerticalSheetTransition (1.0.0):
     - MaterialMotion (~> 1.0)
 
@@ -26,7 +30,7 @@ SPEC CHECKSUMS:
   CatalogByConvention: c3a5319de04250a7cd4649127fcfca5fe3322a43
   IndefiniteObservable: 1ee6af37efa8763a222cc6d414cd125e26ed9b6a
   MaterialMotion: 42e9f95334ad208e9d44536d188d75488d847c81
-  MaterialMotionComponents: 90d1f1f8d15ae016713e0dd7e7d7fda55d535944
+  MaterialMotionComponents: '097fca6ea0608578e03495bf9851ba6a029df208'
 
 PODFILE CHECKSUM: 9dda8ccf7f28bddde7a86b78625c7e3fb1da6808
 

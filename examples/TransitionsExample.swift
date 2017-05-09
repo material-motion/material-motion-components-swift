@@ -49,6 +49,16 @@ class TransitionsExampleViewController: ExampleViewController {
     tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     view.addSubview(tableView)
+
+    let fab = UIButton(type: .custom)
+    fab.frame = .init(x: view.bounds.maxX - 100, y: view.bounds.maxY - 100, width: 64, height: 64)
+    fab.setTitle("+", for: .normal)
+    fab.titleLabel?.font = UIFont.systemFont(ofSize: 28)
+    fab.layer.cornerRadius = fab.bounds.width / 2
+    fab.backgroundColor = .orange
+    fab.addTarget(self, action: #selector(didTapFab), for: .touchUpInside)
+    view.addSubview(fab)
+    self.fab = fab
   }
 
   var cachedSelection: IndexPath?
@@ -68,6 +78,14 @@ class TransitionsExampleViewController: ExampleViewController {
       tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
       cachedSelection = nil
     }
+  }
+
+  func didTapFab() {
+    let vc = ModalViewController()
+
+    vc.transitionController.transition = FABFullScreenTransition(fabView: fab)
+
+    showDetailViewController(vc, sender: self)
   }
 
   override func exampleInformation() -> ExampleInfo {

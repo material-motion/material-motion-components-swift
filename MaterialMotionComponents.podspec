@@ -14,4 +14,10 @@ Pod::Spec.new do |s|
   s.subspec "VerticalSheetTransition" do |ss|
     ss.source_files = "src/transitions/verticalsheet/*.swift"
   end
+
+  s.subspec "FABFullScreenTransition" do |ss|
+    ss.source_files = "src/transitions/fab-fullscreen/*.swift"
+
+    ss.dependency "MaterialMotionComponents/VerticalSheetTransition"
+  end
 end
