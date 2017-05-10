@@ -25,9 +25,13 @@ import MaterialMotion
 
  This transition will be interactive if a pan gesture recognizer is available.
  */
-public final class ModalTransition: Transition {
+public final class ModalTransition: TransitionWithPresentation {
 
   public required init() {}
+
+  public static func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController {
+    return DimmingPresentationController(presentedViewController: presented, presenting: presenting)
+  }
 
   public func willBeginTransition(withContext ctx: TransitionContext, runtime: MotionRuntime) -> [Stateful] {
     let bounds = ctx.containerView().bounds
@@ -70,4 +74,92 @@ public final class ModalTransition: Transition {
 
     return [tossable]
   }
+}
+
+private final class DimmingPresentationController: UIPresentationController, WillBeginTransition {
+  public override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
+    let dimmingView = UIView()
+    dimmingView.backgroundColor = UIColor(white: 0, alpha: 0.4)
+    dimmingView.alpha = 0
+
+    self.dimmingView = dimmingView
+
+    super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+
+    let tap = UITapGestureRecognizer(target: self, action: #selector(didTap))
+    dimmingView.addGestureRecognizer(tap)
+  }
+
+  func didTap() {
+    presentingViewController.dismiss(animated: true)
+  }
+
+  public override var frameOfPresentedViewInContainerView: CGRect {
+    guard let containerView = containerView else { return .zero() }
+
+    if let frame = preferredFrame(for: presentedViewController,
+                                  inBounds: containerView.bounds,
+                                  alignmentEdge: presentedViewController.transitionController.foreAlignmentEdge) {
+      return frame
+    }
+    return containerView.bounds
+  }
+
+  public override func presentationTransitionWillBegin() {
+    guard let containerView = containerView else { return }
+
+    dimmingView.frame = containerView.bounds
+    dimmingView.alpha = 0
+
+    containerView.insertSubview(dimmingView, at: 0)
+
+    presentedViewController.view.autoresizingMask = [.flexibleLeftMargin,
+                                                     .flexibleTopMargin,
+                                                     .flexibleRightMargin,
+                                                     .flexibleBottomMargin]
+  }
+
+  public override func presentationTransitionDidEnd(_ completed: Bool) {
+    if !completed {
+      dimmingView.removeFromSuperview()
+    }
+  }
+
+  public override func dismissalTransitionDidEnd(_ completed: Bool) {
+    if completed {
+      dimmingView.removeFromSuperview()
+    }
+  }
+
+  public func willBeginTransition(withContext ctx: TransitionContext, runtime: MotionRuntime) -> [Stateful] {
+    let fade = TransitionTween<CGFloat>(duration: 0.375, forwardValues: [0, 1], direction: ctx.direction)
+    runtime.add(fade, to: runtime.get(dimmingView.layer).opacity)
+    return [fade]
+  }
+
+  private let dimmingView: UIView
+}
+
+private func preferredFrame(for viewController: UIViewController,
+                            inBounds bounds: CGRect,
+                            alignmentEdge: CGRectEdge?) -> CGRect? {
+  guard viewController.preferredContentSize != .zero() else {
+    return nil
+  }
+
+  let size = viewController.preferredContentSize
+  let origin: CGPoint
+  switch alignmentEdge {
+  case nil: // Centered
+    origin = .init(x: bounds.midX - size.width / 2, y: bounds.midY - size.height / 2)
+  case .minXEdge?:
+    origin = .init(x: bounds.minX, y: bounds.midY - size.height / 2)
+  case .minYEdge?:
+    origin = .init(x: bounds.midX - size.width / 2, y: bounds.minY)
+  case .maxXEdge?:
+    origin = .init(x: bounds.maxX - size.width, y: bounds.midY - size.height / 2)
+  case .maxYEdge?:
+    origin = .init(x: bounds.midX - size.width / 2, y: bounds.maxY - size.height)
+  }
+  return CGRect(origin: origin, size: size)
 }

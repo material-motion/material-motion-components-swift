@@ -33,7 +33,6 @@ class TransitionsExampleViewController: ExampleViewController {
   }
 
   var picker: UIPickerView!
-  var sizeSwitch: UISwitch!
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -44,23 +43,13 @@ class TransitionsExampleViewController: ExampleViewController {
     picker.dataSource = self
     picker.delegate = self
     view.addSubview(picker)
-
-    sizeSwitch = UISwitch()
-    let sizeSize = sizeSwitch.sizeThatFits(view.bounds.size)
-    sizeSwitch.frame = .init(origin: .init(x: view.bounds.midX - sizeSize.width / 2, y: picker.frame.maxY), size: size)
-    view.addSubview(sizeSwitch)
   }
 
   func didTap() {
     let vc = ModalViewController()
 
     vc.transitionController.transitionType = transitions[picker.selectedRow(inComponent: 0)]
-
-    if sizeSwitch.isOn {
-      vc.modalPresentationStyle = .overCurrentContext
-      vc.preferredContentSize = .init(width: 100, height: 100)
-      vc.view.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin, .flexibleRightMargin, .flexibleBottomMargin]
-    }
+    vc.preferredContentSize = .init(width: 100, height: 100)
 
     showDetailViewController(vc, sender: self)
   }
