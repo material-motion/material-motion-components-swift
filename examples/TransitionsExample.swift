@@ -18,7 +18,7 @@ import UIKit
 import MaterialMotion
 import MaterialMotionComponents
 
-let transitions: [Transition.Type] = [ModalTransition.self]
+let transitions: [Transition] = [ModalTransition()]
 
 class TransitionsExampleViewController: ExampleViewController {
 
@@ -48,8 +48,7 @@ class TransitionsExampleViewController: ExampleViewController {
   func didTap() {
     let vc = ModalViewController()
 
-    vc.transitionController.transitionType = transitions[picker.selectedRow(inComponent: 0)]
-    vc.preferredContentSize = .init(width: 100, height: 100)
+    vc.transitionController.transition = transitions[picker.selectedRow(inComponent: 0)]
 
     showDetailViewController(vc, sender: self)
   }

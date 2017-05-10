@@ -20,14 +20,10 @@ import MaterialMotion
 /**
  A modal transition moves the forward view controller from the bottom of the container to the center
  of the container.
-
- ## Customizing dismissal with gestures
-
- This transition will be interactive if a pan gesture recognizer is available.
  */
 public final class ModalTransition: TransitionWithPresentation {
 
-  public required init() {}
+  public init() {}
 
   public static func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController {
     return DimmingPresentationController(presentedViewController: presented, presenting: presenting)
@@ -76,7 +72,7 @@ public final class ModalTransition: TransitionWithPresentation {
   }
 }
 
-private final class DimmingPresentationController: UIPresentationController, WillBeginTransition {
+private final class DimmingPresentationController: UIPresentationController, Transition {
   public override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
     let dimmingView = UIView()
     dimmingView.backgroundColor = UIColor(white: 0, alpha: 0.4)
@@ -92,17 +88,6 @@ private final class DimmingPresentationController: UIPresentationController, Wil
 
   func didTap() {
     presentingViewController.dismiss(animated: true)
-  }
-
-  public override var frameOfPresentedViewInContainerView: CGRect {
-    guard let containerView = containerView else { return .zero() }
-
-    if let frame = preferredFrame(for: presentedViewController,
-                                  inBounds: containerView.bounds,
-                                  alignmentEdge: presentedViewController.transitionController.foreAlignmentEdge) {
-      return frame
-    }
-    return containerView.bounds
   }
 
   public override func presentationTransitionWillBegin() {
@@ -138,28 +123,4 @@ private final class DimmingPresentationController: UIPresentationController, Wil
   }
 
   private let dimmingView: UIView
-}
-
-private func preferredFrame(for viewController: UIViewController,
-                            inBounds bounds: CGRect,
-                            alignmentEdge: CGRectEdge?) -> CGRect? {
-  guard viewController.preferredContentSize != .zero() else {
-    return nil
-  }
-
-  let size = viewController.preferredContentSize
-  let origin: CGPoint
-  switch alignmentEdge {
-  case nil: // Centered
-    origin = .init(x: bounds.midX - size.width / 2, y: bounds.midY - size.height / 2)
-  case .minXEdge?:
-    origin = .init(x: bounds.minX, y: bounds.midY - size.height / 2)
-  case .minYEdge?:
-    origin = .init(x: bounds.midX - size.width / 2, y: bounds.minY)
-  case .maxXEdge?:
-    origin = .init(x: bounds.maxX - size.width, y: bounds.midY - size.height / 2)
-  case .maxYEdge?:
-    origin = .init(x: bounds.midX - size.width / 2, y: bounds.maxY - size.height)
-  }
-  return CGRect(origin: origin, size: size)
 }
