@@ -3,6 +3,7 @@ use_frameworks!
 
 target "MaterialMotionComponentsCatalog" do
   pod 'CatalogByConvention'
+  pod 'Tweaks'
   pod 'MaterialMotionComponents', :path => './'
   pod 'MaterialMotion', :path => '../material-motion-swift/'
 

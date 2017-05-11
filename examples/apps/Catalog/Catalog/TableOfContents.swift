@@ -19,3 +19,7 @@
 extension TransitionsExampleViewController {
   class func catalogBreadcrumbs() -> [String] { return ["Transitions"] }
 }
+
+extension CommonControlsExampleViewController {
+  class func catalogBreadcrumbs() -> [String] { return ["Common controls"] }
+}

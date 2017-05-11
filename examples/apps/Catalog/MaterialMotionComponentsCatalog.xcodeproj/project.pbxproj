@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1E83FEFB10B95E29D8066518 /* Pods_MaterialMotionComponentsCatalog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB815E9AB8CC66CABE5EA0F /* Pods_MaterialMotionComponentsCatalog.framework */; };
 		664A5B771DD10D320082B5DF /* TableOfContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664A5B761DD10D320082B5DF /* TableOfContents.swift */; };
+		666A6BD01EC4DB370078C176 /* CommonControlsExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A6BCF1EC4DB370078C176 /* CommonControlsExample.swift */; };
 		666FAA841D384A6B000363DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666FAA831D384A6B000363DA /* AppDelegate.swift */; };
 		666FAA8B1D384A6B000363DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 666FAA8A1D384A6B000363DA /* Assets.xcassets */; };
 		666FAA8E1D384A6B000363DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 666FAA8C1D384A6B000363DA /* LaunchScreen.storyboard */; };
@@ -45,6 +46,7 @@
 		47BA03CDA186307B320FEE63 /* Pods-MaterialMotionComponentsCatalog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaterialMotionComponentsCatalog.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-MaterialMotionComponentsCatalog/Pods-MaterialMotionComponentsCatalog.release.xcconfig"; sourceTree = "<group>"; };
 		65B12BFF400C22421C9A8F10 /* Pods-MaterialMotionComponentsCatalog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaterialMotionComponentsCatalog.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-MaterialMotionComponentsCatalog/Pods-MaterialMotionComponentsCatalog.debug.xcconfig"; sourceTree = "<group>"; };
 		664A5B761DD10D320082B5DF /* TableOfContents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableOfContents.swift; path = Catalog/TableOfContents.swift; sourceTree = "<group>"; };
+		666A6BCF1EC4DB370078C176 /* CommonControlsExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonControlsExample.swift; sourceTree = "<group>"; };
 		666FAA801D384A6B000363DA /* MaterialMotionComponentsCatalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaterialMotionComponentsCatalog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		666FAA831D384A6B000363DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Catalog/AppDelegate.swift; sourceTree = "<group>"; };
 		666FAA8A1D384A6B000363DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 		666FAAA31D384B13000363DA /* examples */ = {
 			isa = PBXGroup;
 			children = (
+				666A6BCF1EC4DB370078C176 /* CommonControlsExample.swift */,
 				66B152DD1E9EC04100E32DD5 /* TransitionsExample.swift */,
 			);
 			name = examples;
@@ -468,6 +471,7 @@
 				66B152E71E9EC0B900E32DD5 /* Layout.swift in Sources */,
 				66B152E51E9EC0B900E32DD5 /* ExampleViews.swift in Sources */,
 				664A5B771DD10D320082B5DF /* TableOfContents.swift in Sources */,
+				666A6BD01EC4DB370078C176 /* CommonControlsExample.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

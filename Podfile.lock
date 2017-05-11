@@ -10,11 +10,13 @@ PODS:
     - MaterialMotionComponents/ModalTransition (= 1.0.0)
   - MaterialMotionComponents/ModalTransition (1.0.0):
     - MaterialMotion (~> 1.0)
+  - Tweaks (2.0.0)
 
 DEPENDENCIES:
   - CatalogByConvention
   - MaterialMotion (from `../material-motion-swift/`)
   - MaterialMotionComponents (from `./`)
+  - Tweaks
 
 EXTERNAL SOURCES:
   MaterialMotion:
@@ -27,7 +29,8 @@ SPEC CHECKSUMS:
   IndefiniteObservable: 1ee6af37efa8763a222cc6d414cd125e26ed9b6a
   MaterialMotion: 42e9f95334ad208e9d44536d188d75488d847c81
   MaterialMotionComponents: d025ac82cb84e9c598a7664e51720ef7d7a505c1
+  Tweaks: 524fa47636cce3bf3a4d9156e980f10ae9480e81
 
-PODFILE CHECKSUM: 9dda8ccf7f28bddde7a86b78625c7e3fb1da6808
+PODFILE CHECKSUM: 36e149b4138f4251742b34d4f563eb8852cfc00c
 
 COCOAPODS: 1.2.0
