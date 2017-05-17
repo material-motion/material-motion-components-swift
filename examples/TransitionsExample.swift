@@ -33,10 +33,10 @@ class TransitionsExampleViewController: ExampleViewController {
     transitions.append(.init(name: "Vertical sheet", transition: VerticalSheetTransition()))
 
     let modalDialog = VerticalSheetTransition()
-    modalDialog.calculateFrameOfPresentedViewInContainerView = { containerView, _, _ in
+    modalDialog.calculateFrameOfPresentedViewInContainerView = { info in
       let size = CGSize(width: 200, height: 200)
-      return CGRect(x: (containerView.bounds.width - size.width) / 2,
-                    y: (containerView.bounds.height - size.height) / 2,
+      return CGRect(x: (info.containerView.bounds.width - size.width) / 2,
+                    y: (info.containerView.bounds.height - size.height) / 2,
                     width: size.width,
                     height: size.height)
     }
@@ -99,8 +99,8 @@ class TransitionsExampleViewController: ExampleViewController {
     let vc = ModalViewController()
 
     let transition = FABMaskedRevealTransition(fabView: fab)
-    transition.calculateFrameOfPresentedViewInContainerView = { containerView, _, _ in
-      return containerView.bounds.divided(atDistance: 300, from: .maxYEdge).slice
+    transition.calculateFrameOfPresentedViewInContainerView = { info in
+      return info.containerView.bounds.divided(atDistance: 300, from: .maxYEdge).slice
     }
     vc.transitionController.transition = transition
 

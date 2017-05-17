@@ -17,7 +17,30 @@
 import Foundation
 import MaterialMotion
 
-public typealias CalculateFrame = (UIView, UIViewController, UIViewController) -> CGRect
+/**
+ A block used to calculate the frame of the presented view controller during presentation.
+ */
+public typealias CalculateFrame = (CalculateFrameInfo) -> CGRect
+
+/**
+ Information provided to the CalculateFrame block.
+ */
+public struct CalculateFrameInfo {
+  /**
+   The container view of the transition.
+   */
+  public let containerView: UIView
+
+  /**
+   The view controller from which the transition is originating.
+   */
+  public let presentingViewController: UIViewController
+
+  /**
+   The view controller being presented.
+   */
+  public let presentedViewController: UIViewController
+}
 
 /**
  A vertical sheet transition moves the forward view controller from the bottom of the container to
@@ -32,9 +55,6 @@ public final class VerticalSheetTransition: TransitionWithPresentation {
 
    If no block is provided, then the presented view controller will consume the entire container
    view's bounds.
-
-   The first argument is the **presenting** view controller. The second argument is the
-   **presented** view controller.
    */
   public var calculateFrameOfPresentedViewInContainerView: CalculateFrame?
 
@@ -127,7 +147,10 @@ final class DimmingPresentationController: UIPresentationController, Transition 
       assertionFailure("Missing container view during frame query.")
       return .zero()
     }
-    return calculateFrameOfPresentedViewInContainerView(containerView, presentingViewController, presentedViewController)
+    let info = CalculateFrameInfo(containerView: containerView,
+                                  presentingViewController: presentingViewController,
+                                  presentedViewController: presentedViewController)
+    return calculateFrameOfPresentedViewInContainerView(info)
   }
 
   public override func presentationTransitionWillBegin() {
