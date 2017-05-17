@@ -99,12 +99,12 @@ public final class VerticalSheetTransition: TransitionWithPresentation {
   }
 }
 
-private final class DimmingPresentationController: UIPresentationController, Transition {
+final class DimmingPresentationController: UIPresentationController, Transition {
   public init(presentedViewController: UIViewController,
               presenting presentingViewController: UIViewController?,
               calculateFrameOfPresentedViewInContainerView: @escaping CalculateFrame) {
     let dimmingView = UIView()
-    dimmingView.backgroundColor = UIColor(white: 0, alpha: 0.4)
+    dimmingView.backgroundColor = UIColor(white: 0, alpha: 0.3)
     dimmingView.alpha = 0
     self.dimmingView = dimmingView
 
