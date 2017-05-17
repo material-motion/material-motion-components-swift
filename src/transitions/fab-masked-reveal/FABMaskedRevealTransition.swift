@@ -20,15 +20,46 @@ import MaterialMotion
 let floodFillOvershootRatio: CGFloat = 1.2
 
 /**
- A floating action button (FAB) full screen transition will use a mask effect to reveal the
- presented view controller as it slides up from the bottom of the screen.
+ A floating action button (FAB) masked reveal transition will use a mask effect to reveal the
+ presented view controller as it slides into position.
 
  During dismissal, this transition falls back to a VerticalSheetTransition.
  */
-public final class FABFullScreenTransition: TransitionWithTermination, TransitionWithFallback {
+public final class FABMaskedRevealTransition: TransitionWithPresentation, TransitionWithTermination, TransitionWithFallback {
 
   public init(fabView: UIView) {
     self.fabView = fabView
+  }
+
+  /**
+   This optional block can be used to customize the frame of the presented view controller.
+
+   If no block is provided, then the presented view controller will consume the entire container
+   view's bounds.
+
+   The first argument is the **presenting** view controller. The second argument is the
+   **presented** view controller.
+   */
+  public var calculateFrameOfPresentedViewInContainerView: CalculateFrame?
+
+  public func defaultModalPresentationStyle() -> UIModalPresentationStyle? {
+    if calculateFrameOfPresentedViewInContainerView != nil {
+      return .custom
+    }
+    return nil
+  }
+
+  public func presentationController(forPresented presented: UIViewController,
+                                     presenting: UIViewController?,
+                                     source: UIViewController) -> UIPresentationController? {
+    if let calculateFrameOfPresentedViewInContainerView = calculateFrameOfPresentedViewInContainerView {
+      isUsingPresentationController = true
+      return DimmingPresentationController(presentedViewController: presented,
+                                           presenting: presenting,
+                                           calculateFrameOfPresentedViewInContainerView: calculateFrameOfPresentedViewInContainerView)
+    }
+    isUsingPresentationController = false
+    return nil
   }
 
   public func fallbackTansition(withContext ctx: TransitionContext) -> Transition {
@@ -39,13 +70,17 @@ public final class FABFullScreenTransition: TransitionWithTermination, Transitio
   }
 
   public func didEndTransition(withContext ctx: TransitionContext, runtime: MotionRuntime) {
-    scrimView.removeFromSuperview()
-    scrimView = nil
+    if !isUsingPresentationController {
+      scrimView.removeFromSuperview()
+      scrimView = nil
+    }
 
     originalParentView.addSubview(ctx.fore.view)
+    ctx.fore.view.frame.origin = originalOrigin
     maskedContainerView.removeFromSuperview()
     maskedContainerView = nil
     originalParentView = nil
+    originalOrigin = nil
   }
 
   public func willBeginTransition(withContext ctx: TransitionContext, runtime: MotionRuntime) -> [Stateful] {
@@ -56,15 +91,17 @@ public final class FABFullScreenTransition: TransitionWithTermination, Transitio
 
     var interactions: [Stateful] = []
 
-    // TODO(featherless): Consider making use of a presentation controller to show the scrim so that
-    // it appears and fades out when we're dismissing.
-    scrimView = UIView(frame: ctx.containerView().bounds)
-    scrimView.backgroundColor = UIColor(white: 0, alpha: 0.3)
-    ctx.containerView().addSubview(scrimView)
+    if !isUsingPresentationController {
+      scrimView = UIView(frame: ctx.containerView().bounds)
+      scrimView.backgroundColor = UIColor(white: 0, alpha: 0.3)
+      ctx.containerView().addSubview(scrimView)
+    }
 
     originalParentView = ctx.fore.view.superview
+    originalOrigin = ctx.fore.view.frame.origin
+    let originalFrame = ctx.fore.view.frame
 
-    maskedContainerView = UIView(frame: ctx.containerView().bounds)
+    maskedContainerView = UIView(frame: ctx.fore.view.frame)
     maskedContainerView.clipsToBounds = true
     ctx.containerView().addSubview(maskedContainerView)
 
@@ -76,6 +113,7 @@ public final class FABFullScreenTransition: TransitionWithTermination, Transitio
     // fade the fore view in (what we're currently doing).
     maskedContainerView.addSubview(floodFillView)
     maskedContainerView.addSubview(ctx.fore.view)
+    ctx.fore.view.frame.origin = .zero
 
     // Fade out the label, if any.
     if let button = fabView as? UIButton, let titleLabel = button.titleLabel, let text = titleLabel.text, !text.isEmpty {
@@ -87,12 +125,12 @@ public final class FABFullScreenTransition: TransitionWithTermination, Transitio
     }
 
     let fabFrameInContainer = fabView.convert(fabView.bounds, to: ctx.containerView())
-    let fabFrameInContent = fabFrameInContainer.offsetBy(dx: 0, dy: -fabFrameInContainer.minY + 20)
-    let startingFrame = CGRect(x: 0,
+    let startingFrame = CGRect(x: ctx.fore.view.frame.minX,
                                y: fabFrameInContainer.minY - 20,
                                width: ctx.fore.view.bounds.width,
                                height: ctx.fore.view.bounds.height)
-    let endingFrame = ctx.containerView().bounds
+    let fabFrameInContent = fabFrameInContainer.offsetBy(dx: 0, dy: -fabFrameInContainer.minY + 20)
+    let endingFrame = originalFrame
 
     let fabMaskLayer = CAShapeLayer()
     fabMaskLayer.path = UIBezierPath(rect: maskedContainerView.bounds).cgPath
@@ -134,10 +172,12 @@ public final class FABFullScreenTransition: TransitionWithTermination, Transitio
     runtime.add(shiftContentUp, to: runtime.get(maskedContainerView.layer).positionY)
     interactions.append(shiftContentUp)
 
-    let scrimFadeIn = Tween<CGFloat>(duration: 0.075, values: [0, 1])
-    runtime.add(scrimFadeIn, to: runtime.get(scrimView).layer.opacity)
-    scrimFadeIn.timingFunctions.value = [.init(controlPoints: 0.4, 0.0, 0.2, 1.0)]
-    interactions.append(scrimFadeIn)
+    if !isUsingPresentationController {
+      let scrimFadeIn = Tween<CGFloat>(duration: 0.075, values: [0, 1])
+      runtime.add(scrimFadeIn, to: runtime.get(scrimView).layer.opacity)
+      scrimFadeIn.timingFunctions.value = [.init(controlPoints: 0.4, 0.0, 0.2, 1.0)]
+      interactions.append(scrimFadeIn)
+    }
 
     runtime.add(Hidden(), to: fabView)
 
@@ -148,6 +188,8 @@ public final class FABFullScreenTransition: TransitionWithTermination, Transitio
   private var scrimView: UIView!
   private var maskedContainerView: UIView!
   private var originalParentView: UIView!
+  private var originalOrigin: CGPoint!
+  private var isUsingPresentationController = false
 }
 
 // TODO: The need here is we want to hide a given view will the transition is active. This

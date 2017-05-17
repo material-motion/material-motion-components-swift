@@ -27,7 +27,6 @@ class TransitionsExampleViewController: ExampleViewController {
   var transitions: [TransitionInfo] = []
 
   var tableView: UITableView!
-  var fab: UIView!
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -58,7 +57,15 @@ class TransitionsExampleViewController: ExampleViewController {
     fab.backgroundColor = .orange
     fab.addTarget(self, action: #selector(didTapFab), for: .touchUpInside)
     view.addSubview(fab)
-    self.fab = fab
+
+    let fab2 = UIButton(type: .custom)
+    fab2.frame = .init(x: fab.frame.minX, y: fab.frame.minY - 100, width: 64, height: 64)
+    fab2.setTitle("+", for: .normal)
+    fab2.titleLabel?.font = UIFont.systemFont(ofSize: 28)
+    fab2.layer.cornerRadius = fab2.bounds.width / 2
+    fab2.backgroundColor = .blue
+    fab2.addTarget(self, action: #selector(didTapFab2), for: .touchUpInside)
+    view.addSubview(fab2)
   }
 
   var cachedSelection: IndexPath?
@@ -80,10 +87,22 @@ class TransitionsExampleViewController: ExampleViewController {
     }
   }
 
-  func didTapFab() {
+  func didTapFab(fab: UIView) {
     let vc = ModalViewController()
 
-    vc.transitionController.transition = FABFullScreenTransition(fabView: fab)
+    vc.transitionController.transition = FABMaskedRevealTransition(fabView: fab)
+
+    showDetailViewController(vc, sender: self)
+  }
+
+  func didTapFab2(fab: UIView) {
+    let vc = ModalViewController()
+
+    let transition = FABMaskedRevealTransition(fabView: fab)
+    transition.calculateFrameOfPresentedViewInContainerView = { containerView, _, _ in
+      return containerView.bounds.divided(atDistance: 300, from: .maxYEdge).slice
+    }
+    vc.transitionController.transition = transition
 
     showDetailViewController(vc, sender: self)
   }
