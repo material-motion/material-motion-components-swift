@@ -59,7 +59,7 @@ class TransitionsExampleViewController: ExampleViewController {
     view.addSubview(fab)
 
     let fab2 = UIButton(type: .custom)
-    fab2.frame = .init(x: fab.frame.minX, y: fab.frame.minY - 100, width: 64, height: 64)
+    fab2.frame = .init(x: 100 - 64, y: view.bounds.maxY - 100, width: 64, height: 64)
     fab2.setTitle("+", for: .normal)
     fab2.titleLabel?.font = UIFont.systemFont(ofSize: 28)
     fab2.layer.cornerRadius = fab2.bounds.width / 2

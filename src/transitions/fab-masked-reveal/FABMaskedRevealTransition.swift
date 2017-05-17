@@ -149,13 +149,21 @@ public final class FABMaskedRevealTransition: TransitionWithPresentation, Transi
     interactions.append(transitionFloodColor)
 
     // This is a guestimate answer to "when will the circle completely fill the visible content?"
-    let fabCenterToFarthestVisiblePoint = CGVector(dx: fabFrameInContainer.midX - startingFrame.minX,
-                                                   dy: fabFrameInContainer.midY - startingFrame.midY)
-    let outerRadius = CGFloat(sqrt(fabCenterToFarthestVisiblePoint.dx * fabCenterToFarthestVisiblePoint.dx + fabCenterToFarthestVisiblePoint.dy * fabCenterToFarthestVisiblePoint.dy))
-    let foreMaskBounds = CGRect(x: fabFrameInContent.midX - outerRadius,
-                                y: fabFrameInContent.midY - outerRadius,
-                                width: outerRadius * 2,
-                                height: outerRadius * 2)
+    let vecToEdge: CGVector
+    if fabFrameInContainer.midX < startingFrame.midX {
+      // Distance to the right mid point.
+      vecToEdge = CGVector(dx: fabFrameInContainer.midX - startingFrame.maxX,
+                           dy: fabFrameInContainer.midY - startingFrame.midY)
+    } else {
+      // Distance to the left mid point.
+      vecToEdge = CGVector(dx: fabFrameInContainer.midX - startingFrame.minX,
+                           dy: fabFrameInContainer.midY - startingFrame.midY)
+    }
+    let targetRadius = CGFloat(sqrt(vecToEdge.dx * vecToEdge.dx + vecToEdge.dy * vecToEdge.dy))
+    let foreMaskBounds = CGRect(x: fabFrameInContent.midX - targetRadius,
+                                y: fabFrameInContent.midY - targetRadius,
+                                width: targetRadius * 2,
+                                height: targetRadius * 2)
     let fabMaskReveal = Tween(duration: 0.105,
                               values: [UIBezierPath(ovalIn: fabFrameInContent).cgPath,
                                        UIBezierPath(ovalIn: foreMaskBounds).cgPath])
