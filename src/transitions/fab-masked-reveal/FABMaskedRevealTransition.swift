@@ -17,8 +17,6 @@
 import Foundation
 import MaterialMotion
 
-let floodFillOvershootRatio: CGFloat = 1.2
-
 /**
  A floating action button (FAB) masked reveal transition will use a mask effect to reveal the
  presented view controller as it slides into position.
