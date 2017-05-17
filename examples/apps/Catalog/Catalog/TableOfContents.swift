@@ -16,6 +16,10 @@
 
 // MARK: Catalog by convention
 
-extension TransitionsExampleViewController {
-  class func catalogBreadcrumbs() -> [String] { return ["Transitions"] }
+extension FabMaskedRevealExampleViewController {
+  class func catalogBreadcrumbs() -> [String] { return ["FAB masked reveal transitions"] }
+}
+
+extension VerticalSheetExampleViewController {
+  class func catalogBreadcrumbs() -> [String] { return ["Vertical transitions"] }
 }

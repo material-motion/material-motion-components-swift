@@ -15,7 +15,8 @@
 		667A3F5C1DEE276000CB3A99 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667A3F5B1DEE276000CB3A99 /* AppDelegate.swift */; };
 		667A3F631DEE276000CB3A99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 667A3F621DEE276000CB3A99 /* Assets.xcassets */; };
 		667A3F661DEE276000CB3A99 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 667A3F641DEE276000CB3A99 /* LaunchScreen.storyboard */; };
-		66B152DE1E9EC04100E32DD5 /* TransitionsExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B152DD1E9EC04100E32DD5 /* TransitionsExample.swift */; };
+		66A3B5561ECE1A9300EFE4E6 /* FabMaskedRevealExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A3B5541ECE1A9300EFE4E6 /* FabMaskedRevealExample.swift */; };
+		66A3B5571ECE1A9300EFE4E6 /* VerticalSheetExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A3B5551ECE1A9300EFE4E6 /* VerticalSheetExample.swift */; };
 		66B152E41E9EC0B900E32DD5 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B152E01E9EC0B900E32DD5 /* ExampleViewController.swift */; };
 		66B152E51E9EC0B900E32DD5 /* ExampleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B152E11E9EC0B900E32DD5 /* ExampleViews.swift */; };
 		66B152E61E9EC0B900E32DD5 /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B152E21E9EC0B900E32DD5 /* HexColor.swift */; };
@@ -57,7 +58,8 @@
 		667A3F621DEE276000CB3A99 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		667A3F651DEE276000CB3A99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		667A3F671DEE276000CB3A99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		66B152DD1E9EC04100E32DD5 /* TransitionsExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionsExample.swift; sourceTree = "<group>"; };
+		66A3B5541ECE1A9300EFE4E6 /* FabMaskedRevealExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FabMaskedRevealExample.swift; sourceTree = "<group>"; };
+		66A3B5551ECE1A9300EFE4E6 /* VerticalSheetExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalSheetExample.swift; sourceTree = "<group>"; };
 		66B152E01E9EC0B900E32DD5 /* ExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		66B152E11E9EC0B900E32DD5 /* ExampleViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleViews.swift; sourceTree = "<group>"; };
 		66B152E21E9EC0B900E32DD5 /* HexColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
@@ -144,7 +146,8 @@
 		666FAAA31D384B13000363DA /* examples */ = {
 			isa = PBXGroup;
 			children = (
-				66B152DD1E9EC04100E32DD5 /* TransitionsExample.swift */,
+				66A3B5541ECE1A9300EFE4E6 /* FabMaskedRevealExample.swift */,
+				66A3B5551ECE1A9300EFE4E6 /* VerticalSheetExample.swift */,
 			);
 			name = examples;
 			path = ../..;
@@ -461,12 +464,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66B152DE1E9EC04100E32DD5 /* TransitionsExample.swift in Sources */,
 				66B152E61E9EC0B900E32DD5 /* HexColor.swift in Sources */,
 				66B152E41E9EC0B900E32DD5 /* ExampleViewController.swift in Sources */,
 				666FAA841D384A6B000363DA /* AppDelegate.swift in Sources */,
 				66B152E71E9EC0B900E32DD5 /* Layout.swift in Sources */,
+				66A3B5571ECE1A9300EFE4E6 /* VerticalSheetExample.swift in Sources */,
 				66B152E51E9EC0B900E32DD5 /* ExampleViews.swift in Sources */,
+				66A3B5561ECE1A9300EFE4E6 /* FabMaskedRevealExample.swift in Sources */,
 				664A5B771DD10D320082B5DF /* TableOfContents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

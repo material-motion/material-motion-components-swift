@@ -18,7 +18,7 @@ import UIKit
 import MaterialMotion
 import MaterialMotionComponents
 
-class TransitionsExampleViewController: ExampleViewController {
+class VerticalSheetExampleViewController: ExampleViewController {
 
   struct TransitionInfo {
     let name: String
@@ -48,24 +48,6 @@ class TransitionsExampleViewController: ExampleViewController {
     tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     view.addSubview(tableView)
-
-    let fab = UIButton(type: .custom)
-    fab.frame = .init(x: view.bounds.maxX - 100, y: view.bounds.maxY - 100, width: 64, height: 64)
-    fab.setTitle("+", for: .normal)
-    fab.titleLabel?.font = UIFont.systemFont(ofSize: 28)
-    fab.layer.cornerRadius = fab.bounds.width / 2
-    fab.backgroundColor = .orange
-    fab.addTarget(self, action: #selector(didTapFab), for: .touchUpInside)
-    view.addSubview(fab)
-
-    let fab2 = UIButton(type: .custom)
-    fab2.frame = .init(x: 100 - 64, y: view.bounds.maxY - 100, width: 64, height: 64)
-    fab2.setTitle("+", for: .normal)
-    fab2.titleLabel?.font = UIFont.systemFont(ofSize: 28)
-    fab2.layer.cornerRadius = fab2.bounds.width / 2
-    fab2.backgroundColor = .blue
-    fab2.addTarget(self, action: #selector(didTapFab2), for: .touchUpInside)
-    view.addSubview(fab2)
   }
 
   var cachedSelection: IndexPath?
@@ -87,33 +69,13 @@ class TransitionsExampleViewController: ExampleViewController {
     }
   }
 
-  func didTapFab(fab: UIView) {
-    let vc = ModalViewController()
-
-    vc.transitionController.transition = FABMaskedRevealTransition(fabView: fab)
-
-    showDetailViewController(vc, sender: self)
-  }
-
-  func didTapFab2(fab: UIView) {
-    let vc = ModalViewController()
-
-    let transition = FABMaskedRevealTransition(fabView: fab)
-    transition.calculateFrameOfPresentedViewInContainerView = { info in
-      return info.containerView.bounds.divided(atDistance: 300, from: .maxYEdge).slice
-    }
-    vc.transitionController.transition = transition
-
-    showDetailViewController(vc, sender: self)
-  }
-
   override func exampleInformation() -> ExampleInfo {
     return .init(title: type(of: self).catalogBreadcrumbs().last!,
                  instructions: "Tap to present a modal transition.")
   }
 }
 
-extension TransitionsExampleViewController: UITableViewDataSource {
+extension VerticalSheetExampleViewController: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
@@ -127,7 +89,7 @@ extension TransitionsExampleViewController: UITableViewDataSource {
   }
 }
 
-extension TransitionsExampleViewController: UITableViewDelegate {
+extension VerticalSheetExampleViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let modal = ModalViewController()
     modal.transitionController.transition = transitions[indexPath.row].transition
