@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "9.0"
   s.requires_arc = true
 
-  s.dependency "MaterialMotion", "~> 1.0"
+  s.dependency "MaterialMotion", "~> 2.0"
 
   s.subspec "VerticalSheetTransition" do |ss|
     ss.source_files = "src/transitions/verticalsheet/*.swift"
